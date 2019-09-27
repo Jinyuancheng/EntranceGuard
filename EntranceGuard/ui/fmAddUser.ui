@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>589</width>
+    <height>247</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="1">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout" stretch="0">
+            <item>
+             <widget class="QGroupBox" name="groupBox_4">
+              <property name="title">
+               <string/>
+              </property>
+              <widget class="QComboBox" name="m_cbCardType">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>26</y>
+                 <width>91</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <item>
+                <property name="text">
+                 <string>普通卡</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>残疾人卡</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>黑名单卡</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>巡更卡</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>胁迫卡</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>超级卡</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>来宾卡</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>解除卡</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>员工卡</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>应急卡</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>应急管理卡</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QComboBox" name="m_cbUserType">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>60</y>
+                 <width>91</width>
+                 <height>22</height>
+                </rect>
+               </property>
+               <item>
+                <property name="text">
+                 <string>普通用户</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>管理员用户</string>
+                </property>
+               </item>
+              </widget>
+              <widget class="QPushButton" name="m_btnAdd">
+               <property name="geometry">
+                <rect>
+                 <x>89</x>
+                 <y>149</y>
+                 <width>121</width>
+                 <height>23</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>添加</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="m_btnQuit">
+               <property name="geometry">
+                <rect>
+                 <x>340</x>
+                 <y>149</y>
+                 <width>111</width>
+                 <height>23</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>返回</string>
+               </property>
+              </widget>
+              <widget class="QSplitter" name="splitter">
+               <property name="geometry">
+                <rect>
+                 <x>140</x>
+                 <y>27</y>
+                 <width>187</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string> 卡号  : </string>
+                </property>
+               </widget>
+               <widget class="QLineEdit" name="m_editCardNum"/>
+              </widget>
+              <widget class="QSplitter" name="splitter_2">
+               <property name="geometry">
+                <rect>
+                 <x>337</x>
+                 <y>28</y>
+                 <width>187</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <widget class="QLabel" name="label_4">
+                <property name="text">
+                 <string>卡密码 : </string>
+                </property>
+               </widget>
+               <widget class="QLineEdit" name="m_editCardPass"/>
+              </widget>
+              <widget class="QSplitter" name="splitter_3">
+               <property name="geometry">
+                <rect>
+                 <x>140</x>
+                 <y>61</y>
+                 <width>187</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <widget class="QLabel" name="label_7">
+                <property name="text">
+                 <string> 姓名  : </string>
+                </property>
+               </widget>
+               <widget class="QLineEdit" name="m_editUserName"/>
+              </widget>
+              <widget class="QSplitter" name="splitter_4">
+               <property name="geometry">
+                <rect>
+                 <x>337</x>
+                 <y>60</y>
+                 <width>187</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <widget class="QLabel" name="label_8">
+                <property name="text">
+                 <string>工号   : </string>
+                </property>
+               </widget>
+               <widget class="QLineEdit" name="m_editUserNum"/>
+              </widget>
+              <widget class="QPushButton" name="m_btnPicPath">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>98</y>
+                 <width>91</width>
+                 <height>23</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>选择图片路径</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="m_linePath">
+               <property name="geometry">
+                <rect>
+                 <x>144</x>
+                 <y>99</y>
+                 <width>381</width>
+                 <height>20</height>
+                </rect>
+               </property>
+              </widget>
+              <zorder>m_linePath</zorder>
+              <zorder>splitter_2</zorder>
+              <zorder>splitter_3</zorder>
+              <zorder>splitter_4</zorder>
+              <zorder>splitter</zorder>
+              <zorder>m_cbCardType</zorder>
+              <zorder>m_cbUserType</zorder>
+              <zorder>m_btnAdd</zorder>
+              <zorder>m_btnQuit</zorder>
+              <zorder>m_btnPicPath</zorder>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
