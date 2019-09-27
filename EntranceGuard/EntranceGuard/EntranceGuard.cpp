@@ -952,6 +952,7 @@ void EntranceGuard::DelMenJinUserInfo()
 		return;
 	}
 	InitSaveLongInfo();
+
 	m_opLongConnInfo->m_iLoginHandle = m_vecLoginInfo[iIndex].m_iLoginHandle;
 	/*\ 在门禁主机中删除用户 \*/
 	NET_DVR_CARD_CFG_COND* oCardInfo = new NET_DVR_CARD_CFG_COND();
