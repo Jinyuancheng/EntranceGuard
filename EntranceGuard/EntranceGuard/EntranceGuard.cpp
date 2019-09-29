@@ -446,18 +446,7 @@ void EntranceGuard::GetDevAbilty()
 	int iIndex = ui.m_listDevInfo->currentIndex().row();
 	if (!m_vecLoginInfo.empty())
 	{
-		/*NET_DVR_CARD_CFG_COND opCardInfo = { 0 };
-		opCardInfo.dwSize = sizeof(NET_DVR_CARD_CFG_COND);
-		opCardInfo.byCheckCardNo = 1;
-		opCardInfo.dwCardNum = 1;
-		m_iConnHandle = NET_DVR_StartRemoteConfig(
-			m_vecLoginInfo[iIndex].m_iLoginHandle,
-			NET_DVR_GET_CARD_CFG_V50,
-			&opCardInfo,
-			sizeof(opCardInfo),
-			m_funcMsgRemoteConfig,
-			nullptr
-		);*/
+		MessageBoxA(nullptr, "未开放", "提示", MB_OK);
 	}
 	else
 	{
@@ -483,8 +472,10 @@ void EntranceGuard::DelMenJinOnAllUserInfo()
 	}
 	else
 	{
-		QString sInfo = "确定要清空门禁: " + m_vecLoginInfo[iIndex].m_sNodeName + " 的所有用户信息吗";
-		int iBtnType = MessageBoxA(nullptr, sInfo.toLocal8Bit().data(), "提示", MB_OKCANCEL);
+		std::string sStart = "确定要清空门禁: ";
+		std::string sEnd = " 的所有用户信息吗?";
+		std::string sInfo = sStart + m_vecLoginInfo[iIndex].m_sNodeName.toLocal8Bit().data() + sEnd;
+		int iBtnType = MessageBoxA(nullptr, sInfo.c_str(), "提示", MB_OKCANCEL);
 		/*\ 1.表示用户点击了确认 \*/
 		if (iBtnType == 1)
 		{
