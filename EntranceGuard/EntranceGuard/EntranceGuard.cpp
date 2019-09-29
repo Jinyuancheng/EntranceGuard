@@ -1082,6 +1082,7 @@ void EntranceGuard::JuageJobNumResFuncHandle(QNetworkReply* _opReqplay)
 	/*\ 判断是否回调成功数据\*/
 	if (jsonResData.value("code") == 0)
 	{
+		m_opFmChangeUser->fmChangeUserInit();
 		/*\ 显示窗体 \*/
 		m_opFmChangeUser->show();
 		CSelMenJinInfo* opSelMenJinInfo = new CSelMenJinInfo();

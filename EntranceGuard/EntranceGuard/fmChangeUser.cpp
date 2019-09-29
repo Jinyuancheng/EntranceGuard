@@ -180,7 +180,7 @@ void fmChangeUser::BtnGetPicPathClickEvent()
 		fileNames = fileDialog->selectedFiles();
 	}
 	/*\ ÉèÖÃÍ¼Æ¬Â·¾¶ \*/
-	if (!fileNames[0].isEmpty())
+	if (fileNames.size() > 0)
 	{
 		m_oUi.m_linePath->setText(fileNames[0]);
 	}
