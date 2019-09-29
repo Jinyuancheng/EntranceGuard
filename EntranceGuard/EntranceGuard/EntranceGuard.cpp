@@ -972,6 +972,7 @@ void EntranceGuard::DelMenJinUserInfo()
 	oDelCardInfo->dwModifyParamType = 0x00000001; //卡是否有效
 	oDelCardInfo->byCardValid = 0;//设置为0表示删除
 
+	///////////////////// 2019/09/29 16:16:51 出现错误，内存的错误 ==> BEGIN /////////////////////////////////////////////////////
 	if (!NET_DVR_SendRemoteConfig(
 		m_opLongConnInfo->m_iLongConnHandle,
 		ENUM_ACS_SEND_DATA,
@@ -991,6 +992,8 @@ void EntranceGuard::DelMenJinUserInfo()
 		goto Free;
 		return;
 	}
+	///////////////////// 2019/09/29 16:16:51 出现错误，内存的错误 ==> END /////////////////////////////////////////////////////
+
 	///////////////////// 2019/09/23 8:45:12 执行删除操作 ==> END /////////////////////////////////////////////////////
 Free:
 	if (oCardInfo != nullptr)
@@ -1019,7 +1022,7 @@ void EntranceGuard::ShowFmChangeUserInfo()
 	int iTbIndex = ui.m_tbUserInfo->currentIndex().row();
 	if (iIndex == -1)
 	{
-		MessageBoxA(nullptr, "请先选择门禁主机", "提示", MB_OK | MB_ICONWARNING);
+		MessageBoxA(nullptr, "请先登录门禁主机", "提示", MB_OK | MB_ICONWARNING);
 		return;
 	}
 	if (iTbIndex == -1)
