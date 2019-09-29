@@ -954,8 +954,11 @@ void EntranceGuard::DelMenJinUserInfo()
 	InitSaveLongInfo();
 
 	m_opLongConnInfo->m_iLoginHandle = m_vecLoginInfo[iIndex].m_iLoginHandle;
-	/*\ 在门禁主机中删除用户 \*/
+	/*\ 在门禁主机中删除用户（建立长连接） \*/
 	NET_DVR_CARD_CFG_COND* oCardInfo = new NET_DVR_CARD_CFG_COND();
+	/*\ 发送长连接数据 \*/
+	NET_DVR_CARD_CFG_V50* oDelCardInfo = new NET_DVR_CARD_CFG_V50();
+
 	oCardInfo->dwSize = sizeof(NET_DVR_CARD_CFG_COND);
 	oCardInfo->dwCardNum = 1;
 	oCardInfo->byCheckCardNo = 1;
@@ -970,13 +973,14 @@ void EntranceGuard::DelMenJinUserInfo()
 	if (m_opLongConnInfo->m_iLongConnHandle == -1)
 	{
 		MessageBoxA(nullptr, "删除用户失败", "提示", MB_OK | MB_ICONWARNING);
+		goto Free;
 		return;
 	}
 	///////////////////// 2019/09/23 8:45:12 执行删除操作 ==> BEGIN /////////////////////////////////////////////////////
-	NET_DVR_CARD_CFG_V50* oDelCardInfo = new NET_DVR_CARD_CFG_V50();
 	oDelCardInfo->dwSize = sizeof(NET_DVR_CARD_CFG_V50);
-	//oDelCardInfo->dwModifyParamType = 0x00000001; //卡是否有效
+	oDelCardInfo->dwModifyParamType = 0x00000001; //卡是否有效
 	oDelCardInfo->byCardValid = 0;//设置为0表示删除
+
 	if (!NET_DVR_SendRemoteConfig(
 		m_opLongConnInfo->m_iLongConnHandle,
 		ENUM_ACS_SEND_DATA,
@@ -985,17 +989,29 @@ void EntranceGuard::DelMenJinUserInfo()
 	{
 		int iError = NET_DVR_GetLastError();
 		MessageBoxA(nullptr, "删除用户失败", "提示", MB_OK | MB_ICONWARNING);
+		goto Free;
 		return;
 	}
 	else
 	{
 		MessageBoxA(nullptr, "删除用户成功", "提示", MB_OK | MB_ICONWARNING);
-		//NET_DVR_StopRemoteConfig(m_opLongConnInfo->m_iLongConnHandle);
-		//int iError = NET_DVR_GetLastError();
+		NET_DVR_StopRemoteConfig(m_opLongConnInfo->m_iLongConnHandle);
+		int iError = NET_DVR_GetLastError();
+		goto Free;
 		return;
 	}
 	///////////////////// 2019/09/23 8:45:12 执行删除操作 ==> END /////////////////////////////////////////////////////
-
+Free:
+	if (oCardInfo != nullptr)
+	{
+		delete oCardInfo;
+		oCardInfo = nullptr;
+	}
+	if (oDelCardInfo != nullptr)
+	{
+		delete oDelCardInfo;
+		oDelCardInfo = nullptr;
+	}
 }
 
 /****************************************!

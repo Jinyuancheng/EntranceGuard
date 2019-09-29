@@ -37,9 +37,6 @@ public:
     QComboBox *m_cbUserType;
     QPushButton *m_btnAdd;
     QPushButton *m_btnQuit;
-    QSplitter *splitter;
-    QLabel *label_3;
-    QLineEdit *m_editCardNum;
     QSplitter *splitter_2;
     QLabel *label_4;
     QLineEdit *m_editCardPass;
@@ -94,19 +91,9 @@ public:
         m_btnQuit = new QPushButton(groupBox_4);
         m_btnQuit->setObjectName(QString::fromUtf8("m_btnQuit"));
         m_btnQuit->setGeometry(QRect(340, 149, 111, 23));
-        splitter = new QSplitter(groupBox_4);
-        splitter->setObjectName(QString::fromUtf8("splitter"));
-        splitter->setGeometry(QRect(140, 27, 187, 20));
-        splitter->setOrientation(Qt::Horizontal);
-        label_3 = new QLabel(splitter);
-        label_3->setObjectName(QString::fromUtf8("label_3"));
-        splitter->addWidget(label_3);
-        m_editCardNum = new QLineEdit(splitter);
-        m_editCardNum->setObjectName(QString::fromUtf8("m_editCardNum"));
-        splitter->addWidget(m_editCardNum);
         splitter_2 = new QSplitter(groupBox_4);
         splitter_2->setObjectName(QString::fromUtf8("splitter_2"));
-        splitter_2->setGeometry(QRect(337, 28, 187, 20));
+        splitter_2->setGeometry(QRect(141, 26, 187, 20));
         splitter_2->setOrientation(Qt::Horizontal);
         label_4 = new QLabel(splitter_2);
         label_4->setObjectName(QString::fromUtf8("label_4"));
@@ -144,7 +131,6 @@ public:
         splitter_2->raise();
         splitter_3->raise();
         splitter_4->raise();
-        splitter->raise();
         m_cbCardType->raise();
         m_cbUserType->raise();
         m_btnAdd->raise();
@@ -188,7 +174,6 @@ public:
 
         m_btnAdd->setText(QApplication::translate("MainWindow", "\344\277\256\346\224\271", nullptr));
         m_btnQuit->setText(QApplication::translate("MainWindow", "\350\277\224\345\233\236", nullptr));
-        label_3->setText(QApplication::translate("MainWindow", " \345\215\241\345\217\267  : ", nullptr));
         label_4->setText(QApplication::translate("MainWindow", "\345\215\241\345\257\206\347\240\201 : ", nullptr));
         label_7->setText(QApplication::translate("MainWindow", " \345\247\223\345\220\215  : ", nullptr));
         label_8->setText(QApplication::translate("MainWindow", "\345\267\245\345\217\267   : ", nullptr));

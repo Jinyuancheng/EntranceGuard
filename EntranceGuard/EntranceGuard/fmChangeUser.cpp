@@ -180,7 +180,7 @@ void fmChangeUser::BtnGetPicPathClickEvent()
 		fileNames = fileDialog->selectedFiles();
 	}
 	/*\ 设置图片路径 \*/
-	if (fileNames[0] != nullptr)
+	if (!fileNames[0].isEmpty())
 	{
 		m_oUi.m_linePath->setText(fileNames[0]);
 	}
@@ -243,7 +243,7 @@ void fmChangeUser::ModifyUserInfoWithCardNum(QNetworkReply* _opReplay)
 			return;
 		}*/
 		/*\ 获取用户输入数据，判断用户都修改什么数据 \*/
-		m_opModifyUserInfo->m_qsCardNum = m_oUi.m_editCardNum->text();
+		//m_opModifyUserInfo->m_qsCardNum = m_oUi.m_editCardNum->text();
 		m_opModifyUserInfo->m_qsCardPass = m_oUi.m_editCardPass->text();
 		m_opModifyUserInfo->m_qsUserName = m_oUi.m_editUserName->text();
 		m_opModifyUserInfo->m_qsUserNum = m_oUi.m_editUserNum->text();
@@ -473,4 +473,22 @@ void fmChangeUser::SvrRetModifyUserHandle(QNetworkReply* _opReplay)
 		MessageBoxA(nullptr, "修改用户信息失败", "提示", MB_OK | MB_ICONWARNING);
 		this->close();
 	}
+}
+
+/****************************************!
+*@brief  修改用户窗体信息初始化。用来将窗口中用户输入的数据为默认
+*@author Jinzi
+*@date   2019/09/29 9:42:11
+*@param[in]
+*@param[out]
+*@return
+****************************************/
+void fmChangeUser::fmChangeUserInit()
+{
+	m_oUi.m_editCardPass->setText(QString::fromLocal8Bit(""));
+	m_oUi.m_editUserName->setText(QString::fromLocal8Bit(""));
+	m_oUi.m_editUserNum->setText(QString::fromLocal8Bit(""));
+	m_oUi.m_linePath->setText(QString::fromLocal8Bit(""));
+	m_oUi.m_cbCardType->setCurrentIndex(0);
+	m_oUi.m_cbUserType->setCurrentIndex(0);
 }

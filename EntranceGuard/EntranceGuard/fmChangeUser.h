@@ -39,6 +39,8 @@ public:
 	fmChangeUser(QWidget* parent = Q_NULLPTR);
 	~fmChangeUser();
 public:
+	/*\ 初始化窗口里面的数据为空 \*/
+	void fmChangeUserInit();
 	/*\ 绑定信号和槽 \*/
 	void BindSignalAndSlots();
 	/*\ 初始化成员变量 \*/
