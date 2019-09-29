@@ -67,8 +67,6 @@ void fmMenJinLogin::HikMenJinLogin()
 			MessageBoxA(nullptr, "请输入合法的端口", "提示", MB_OK | MB_ICONWARNING);
 			return;
 		}
-
-
 		/*\ 首先判断用户是否登录（是否是第一个登录） \*/
 		if (m_vecLoginInfo.empty())
 		{

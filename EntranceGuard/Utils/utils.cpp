@@ -145,3 +145,45 @@ bool CUtils::JuagePortLegal(QString& _qsPort)
 	}
 	return bIsSucc;
 }
+
+ /****************************************!
+ *@brief  判断数字是否是从1到9999以内的
+ *@author Jinzi
+ *@date   2019/09/29 14:03:37
+ *@param[in]  
+	_qsNumber	:	要比对的数字
+ *@param[out] 
+ *@return     true 合法 false 不合法
+ ****************************************/
+bool CUtils::JuageNumberLegal(QString& _qsNumber)
+{
+	bool bIsSucc = false;
+	QRegExp oRegExpNum("(^[1-9]$)|(^[1-9][0-9]$)|(^[1-9][0-9][0-9]$)| \
+		(^[1-9][0-9][0-9][0-9]$)|(^[1-9][0-9][0-9][0-9][0-9]$)|(^[1-9][0-9][0-9][0-9][0-9][0-9]$)");
+	if (oRegExpNum.exactMatch(_qsNumber))
+	{
+		bIsSucc = true;
+	}
+	return bIsSucc;
+}
+
+ /****************************************!
+ *@brief  判断文件路径是否合法
+ *@author Jinzi
+ *@date   2019/09/29 14:35:46
+ *@param[in]  
+	_qsFilePath		:	文件路径
+ *@param[out] 
+ *@return     true 合法 false 不合法
+ ****************************************/
+bool CUtils::JuageFilePathLegal(QString& _qsFilePath)
+{
+	//"(^[a-zA-Z]:(/[a-zA-Z0-9]+)+).([a-zA-Z0-9]+)$|(^[a-zA-Z]:(\\\\[a-zA-Z0-9]+)+).([a-zA-Z0-9]+)$"
+	bool bIsSucc = false;
+	QRegExp oRegExpFilePath("(^[a-zA-Z]:(/[a-zA-Z0-9]+)+).([a-zA-Z0-9]+)$|(^[a-zA-Z]:(\\\\[a-zA-Z0-9]+)+).([a-zA-Z0-9]+)$");
+	if (oRegExpFilePath.exactMatch(_qsFilePath))
+	{
+		bIsSucc = true;
+	}
+	return bIsSucc;
+}

@@ -286,8 +286,26 @@ void fmChangeUser::ModifyUserInfoWithCardNum(QNetworkReply* _opReplay)
 		}
 		if (m_opModifyUserInfo->m_qsUserNum != "")
 		{
+			/*\ 判断工号输入是否合法 \*/
+			if (!CUtils::GetInstance()->JuageNumberLegal(m_opModifyUserInfo->m_qsUserNum))
+			{
+				MessageBoxA(nullptr, "请输入合法的工号0-999999", "提示", MB_OK | MB_ICONWARNING);
+				return;
+			}
 			dwType |= 1 << 10;
 			opModifyInfo->dwEmployeeNo = m_opModifyUserInfo->m_qsUserNum.toUInt();
+		}
+		if (m_opModifyUserInfo->m_qsPicPath != "")
+		{
+			/*\ 判断图片文件路径是否合法 \*/
+			if (CUtils::GetInstance()->JuageNumberLegal(m_opModifyUserInfo->m_qsPicPath))
+			{
+				MessageBoxA(nullptr, "请输入合法的图片路径", "提示", MB_OK | MB_ICONWARNING);
+				return;
+			}
+			/*\ 人脸下发 \*/
+
+
 		}
 		/*\ 从0开始 \*/
 		if (gl_opSelCardInfo.byCardType != m_opModifyUserInfo->m_iCardType)

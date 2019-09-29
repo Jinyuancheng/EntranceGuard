@@ -122,6 +122,18 @@ void fmAddUser::BtnAddUserInfo()
 	}
 	else
 	{
+		/*\ 判断用户输入是否合法 \*/
+		if (!CUtils::GetInstance()->JuageNumberLegal(m_oUi.m_editUserNum->text()))
+		{
+			MessageBoxA(nullptr, "请输入合法的工号0-999999", "提示", MB_OK | MB_ICONWARNING);
+			return;
+		}
+		/*\ 判断图片路径是否合法 \*/
+		if (!CUtils::GetInstance()->JuageFilePathLegal(m_oUi.m_linePath->text()))
+		{
+			MessageBoxA(nullptr, "请输入合法的文件路径", "提示", MB_OK | MB_ICONWARNING);
+			return;
+		}
 		/*\ 得到用户输入数据 \*/
 		m_opAddUserInfo->m_qsCardNum = m_oUi.m_editCardNum->text();
 		m_opAddUserInfo->m_qsCardPass = m_oUi.m_editCardPass->text();
