@@ -3,6 +3,8 @@
 #include <QString>
 #include <QCoreApplication>
 #include <QDir>
+#include <QRegExp>
+
 #include "../Public/PublicDefine.h"
 
 
@@ -101,4 +103,45 @@ QByteArray CUtils::LocalImageToBase64(QString _qsPicPath)
 	QByteArray oPicBase64 = oByteArray.toBase64();
 	oBuf.close();
 	return oPicBase64;
+}
+
+ /****************************************!
+ *@brief  判断ip是否合法
+ *@author Jinzi
+ *@date   2019/09/29 11:42:44
+ *@param[in]  
+	_qsIp		:	需要校验的ip地址
+ *@param[out] 
+ *@return  true 合法 false 不合法   
+ ****************************************/
+bool CUtils::JuageIpLegal(QString& _qsIp)
+{
+	bool bIsSucc = false;
+	QRegExp oRegExpIp("((25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))");
+	if (oRegExpIp.exactMatch(_qsIp))
+	{
+		bIsSucc = true;
+	}
+	return bIsSucc;
+}
+
+
+ /****************************************!
+ *@brief  判断端口是否合法
+ *@author Jinzi
+ *@date   2019/09/29 11:45:01
+ *@param[in]  
+	_qsPort		:	需要校验的端口
+ *@param[out] 
+ *@return     true 合法 false 不合法   
+ ****************************************/
+bool CUtils::JuagePortLegal(QString& _qsPort)
+{
+	bool bIsSucc = false;
+	QRegExp oRegExpPort("^[1-9]$|(^[1-9][0-9]$)|(^[1-9][0-9][0-9]$)|(^[1-9][0-9][0-9][0-9]$)|(^[1-6][0-5][0-5][0-3][0-5]$)");
+	if (oRegExpPort.exactMatch(_qsPort))
+	{
+		bIsSucc = true;
+	}
+	return bIsSucc;
 }

@@ -19,6 +19,10 @@ public:
 	std::string ReadJpgInfoWithCSharp(const char* _cchpPicJpgPath);
 	/*\ qt图片base64编码 \*/
 	QByteArray LocalImageToBase64(QString _qsPicPath);
+	/*\ 判断ip是否合法 \*/
+	bool JuageIpLegal(QString& _qsIp);
+	/*\ 判断端口是否合法 \*/
+	bool JuagePortLegal(QString& _qsPort);
 private:
 };
 

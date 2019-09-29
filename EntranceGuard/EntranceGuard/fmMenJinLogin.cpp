@@ -1,5 +1,10 @@
 #include "fmMenJinLogin.h"
 
+#ifndef _UTILS_H_
+#include "../Utils/utils.h"
+#endif // !_UTILS_H_
+
+
 fmMenJinLogin::fmMenJinLogin(QWidget* _oWidget)
 	:QMainWindow(_oWidget)
 {
@@ -33,6 +38,7 @@ void fmMenJinLogin::HikMenJinLogin()
 {
 	bool bOk;
 	int iLoginHandle = -1;
+
 	/*\ 得到用户输入 \*/
 	QString sNodeName = m_oUi.m_editNodeName->text();
 	QString sIp = m_oUi.m_editIp->text();
@@ -49,6 +55,20 @@ void fmMenJinLogin::HikMenJinLogin()
 	/*\ 可以进行登录 \*/
 	else
 	{
+		/*\ 校验ip是否合法 \*/
+		if (!CUtils::GetInstance()->JuageIpLegal(sIp))
+		{
+			MessageBoxA(nullptr, "请输入合法的ip地址", "提示", MB_OK | MB_ICONWARNING);
+			return;
+		}
+		/*\ 校验端口是否合法 \*/
+		if (!CUtils::GetInstance()->JuagePortLegal(sPort))
+		{
+			MessageBoxA(nullptr, "请输入合法的端口", "提示", MB_OK | MB_ICONWARNING);
+			return;
+		}
+
+
 		/*\ 首先判断用户是否登录（是否是第一个登录） \*/
 		if (m_vecLoginInfo.empty())
 		{
