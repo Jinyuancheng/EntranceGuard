@@ -117,6 +117,7 @@ QByteArray CUtils::LocalImageToBase64(QString _qsPicPath)
 bool CUtils::JuageIpLegal(QString& _qsIp)
 {
 	bool bIsSucc = false;
+	/*\ \d匹配数字 \?匹配零次活一次 {3}重复三次 \*/
 	QRegExp oRegExpIp("((25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))");
 	if (oRegExpIp.exactMatch(_qsIp))
 	{
@@ -158,8 +159,7 @@ bool CUtils::JuagePortLegal(QString& _qsPort)
 bool CUtils::JuageNumberLegal(QString& _qsNumber)
 {
 	bool bIsSucc = false;
-	QRegExp oRegExpNum("(^[1-9]$)|(^[1-9][0-9]$)|(^[1-9][0-9][0-9]$)| \
-		(^[1-9][0-9][0-9][0-9]$)|(^[1-9][0-9][0-9][0-9][0-9]$)|(^[1-9][0-9][0-9][0-9][0-9][0-9]$)");
+	QRegExp oRegExpNum("(^[1-9]$)|(^[1-9][0-9]$)|(^[1-9][0-9][0-9]$)|(^[1-9][0-9][0-9][0-9]$)|(^[1-9][0-9][0-9][0-9][0-9]$)|(^[1-9][0-9][0-9][0-9][0-9][0-9]$)");
 	if (oRegExpNum.exactMatch(_qsNumber))
 	{
 		bIsSucc = true;
