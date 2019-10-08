@@ -47,42 +47,65 @@ void CUtils::DelCharOnString(std::string& _sStr, char _cChar)
 *@param[out]
 *@return
 ****************************************/
-std::string CUtils::ReadJpgInfoWithCSharp(const char* _cchpPicJpgPath)
+char* CUtils::ReadJpgInfoWithCSharp(const char* _cchpPicJpgPath)
 {
 	if (_cchpPicJpgPath == nullptr)
 	{
-		return "";
+		return nullptr;
 	}
-	FuncReadPictureInfo ReadPictureInfo = nullptr;
-	std::string sSavePicInfo;
-	std::string qsDllPath = gl_opSaveIniInfo->sReadPicDllPath;
-	QString sPicPath(_cchpPicJpgPath);
-	//qsDllPath = QDir::toNativeSeparators(qsDllPath);
-	sPicPath = sPicPath.replace("/", "\\\\");
-	HMODULE pInstance = LoadLibraryA(qsDllPath.c_str());
-	if (pInstance != nullptr)
+	char chpBuf[200 * 1024] = { 0 };
+	if (chpBuf == nullptr)
 	{
-		ReadPictureInfo = (FuncReadPictureInfo)GetProcAddress(pInstance, "ReadPictureInfo");
-		if (ReadPictureInfo != nullptr)
-		{
-			if (ReadPictureInfo(sPicPath.toLocal8Bit().data(), sSavePicInfo))
-			{
-				QString qsStr(sSavePicInfo.c_str());
-				QStringList qsList = qsStr.split("-");
-				for (int i = 0; i < qsList.count(); i++)
-				{
-					qsList[i] = "0x" + qsList[i];
-					QString str(qsList[i]);
-					int dec = str.toInt(0,16);
-					char st = dec;
-					sSavePicInfo.clear();
-					sSavePicInfo.append(&st);
-				}
-				return sSavePicInfo;
-			}
-		}
+		return nullptr;
 	}
-	return "";
+	memset(chpBuf, 0, sizeof(chpBuf));
+	FILE* fileI = fopen(_cchpPicJpgPath, "rb");
+	if (!fileI)
+	{
+		return nullptr;
+	}
+	int iLength = fread(chpBuf, 1, 200 * 1024, fileI);
+	if (iLength > 0)
+	{
+		char* chpRetBuf = (char*)malloc(iLength);
+		strncpy(chpRetBuf, chpBuf, iLength);
+		return chpRetBuf;
+	}
+	else
+	{
+		return nullptr;
+	}
+
+	//FuncReadPictureInfo ReadPictureInfo = nullptr;
+	//std::string sSavePicInfo;
+	//std::string qsDllPath = gl_opSaveIniInfo->sReadPicDllPath;
+	//QString sPicPath(_cchpPicJpgPath);
+	////qsDllPath = QDir::toNativeSeparators(qsDllPath);
+	//sPicPath = sPicPath.replace("/", "\\\\");
+	//HMODULE pInstance = LoadLibraryA(qsDllPath.c_str());
+	//if (pInstance != nullptr)
+	//{
+	//	ReadPictureInfo = (FuncReadPictureInfo)GetProcAddress(pInstance, "ReadPictureInfo");
+	//	if (ReadPictureInfo != nullptr)
+	//	{
+	//		if (ReadPictureInfo(sPicPath.toLocal8Bit().data(), sSavePicInfo))
+	//		{
+	//			QString qsStr(sSavePicInfo.c_str());
+	//			QStringList qsList = qsStr.split("-");
+	//			for (int i = 0; i < qsList.count(); i++)
+	//			{
+	//				qsList[i] = "0x" + qsList[i];
+	//				QString str(qsList[i]);
+	//				int dec = str.toInt(0,16);
+	//				char st = dec;
+	//				sSavePicInfo.clear();
+	//				sSavePicInfo.append(&st);
+	//			}
+	//			return sSavePicInfo;
+	//		}
+	//	}
+	//}
+	//return "";
 }
 
  /****************************************!

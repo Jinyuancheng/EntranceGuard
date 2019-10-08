@@ -50,7 +50,7 @@ public:
 	/*\ 录入人脸信息 \*/
 	void SendCardSuccInputFaceInfo();
 	/*\ 读取图片信息到文件流 \*/
-	std::string ReadPicInfoToStream();
+	char* ReadPicInfoToStream();
 public slots:
 	/*\ 添加用户按钮点击事件 \*/
 	void BtnAddUserInfo();

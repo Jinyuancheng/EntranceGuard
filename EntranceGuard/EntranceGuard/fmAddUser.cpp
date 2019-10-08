@@ -339,15 +339,17 @@ void fmAddUser::AddUserInfoToMenJin()
 	if (m_opLongConnStatus->m_iLongConnHandle == -1)
 	{
 		this->InitLongConnStatus();
-		if (opInputBuf != nullptr)
-		{
-			delete opInputBuf;
-			opInputBuf = nullptr;
-		}
+		goto Free;
 		return;
 	}
 	m_opLongConnStatus->m_bIsLongConn = true;
 	this->SendCardInfoToMenJin();
+Free:
+	if (opInputBuf != nullptr)
+	{
+		delete opInputBuf;
+		opInputBuf = nullptr;
+	}
 }
 
 /****************************************!
@@ -510,18 +512,18 @@ void fmAddUser::SendCardSuccInputFaceInfo()
 	/*\ 初始化长连接数据 \*/
 	this->InitLongConnStatus();
 	m_opLongConnStatus->m_iLoginHandle = m_vecLoginInfo[iIndex].m_iLoginHandle;
-	NET_DVR_FACE_PARAM_COND* oStartFaceInfo = new NET_DVR_FACE_PARAM_COND();
-	oStartFaceInfo->dwSize = sizeof(NET_DVR_FACE_PARAM_COND);
-	oStartFaceInfo->dwFaceNum = 1;
-	oStartFaceInfo->byFaceID = 1;
-	oStartFaceInfo->byEnableCardReader[0] = 1;
-	strcpy((char*)oStartFaceInfo->byCardNo, m_opAddUserInfo->m_qsCardNum.toLocal8Bit().data());
+	NET_DVR_FACE_PARAM_COND oStartFaceInfo = { 0 };
+	oStartFaceInfo.dwSize = sizeof(NET_DVR_FACE_PARAM_COND);
+	oStartFaceInfo.dwFaceNum = 1;
+	oStartFaceInfo.byFaceID = 1;
+	oStartFaceInfo.byEnableCardReader[0] = 1;
+	strcpy((char*)oStartFaceInfo.byCardNo, m_opAddUserInfo->m_qsCardNum.toLocal8Bit().data());
 	/*\ 建立长连接 \*/
 	m_opLongConnStatus->m_iLongConnHandle = NET_DVR_StartRemoteConfig(
 		m_opLongConnStatus->m_iLoginHandle,
-		NET_DVR_GET_FACE_PARAM_CFG,
-		oStartFaceInfo,
-		sizeof(NET_DVR_FACE_PARAM_COND),
+		NET_DVR_SET_FACE_PARAM_CFG,
+		&oStartFaceInfo,
+		static_cast<DWORD>(sizeof(NET_DVR_FACE_PARAM_COND)),
 		(fRemoteConfigCallback)AddUserRemoteConfigCallBack,
 		nullptr
 	);
@@ -533,37 +535,43 @@ void fmAddUser::SendCardSuccInputFaceInfo()
 	}
 	m_opLongConnStatus->m_bIsLongConn = true;
 	/*\ 发送数据 \*/
-	NET_DVR_FACE_PARAM_CFG* oSendFaceInfo = new NET_DVR_FACE_PARAM_CFG();
-	oSendFaceInfo->dwSize = sizeof(NET_DVR_FACE_PARAM_CFG);
-	oSendFaceInfo->byFaceDataType = 1;
-	oSendFaceInfo->byFaceID = 1;
-	oSendFaceInfo->byEnableCardReader[0] = 1;
+	NET_DVR_FACE_PARAM_CFG oSendFaceInfo = { 0 };
+	oSendFaceInfo.dwSize = sizeof(NET_DVR_FACE_PARAM_CFG);
+	oSendFaceInfo.byFaceDataType = 1;
+	oSendFaceInfo.byFaceID = 1;
+	oSendFaceInfo.byEnableCardReader[0] = 1;
 	/*\ 卡号 \*/
-	strcpy((char*)oSendFaceInfo->byCardNo, m_opAddUserInfo->m_qsCardNum.toLocal8Bit().data());
-	/*\ 读取图片信息到文件流 \*/
-	std::string oPicFileInfo = ReadPicInfoToStream();
-	if (oPicFileInfo == "")
+	strcpy((char*)oSendFaceInfo.byCardNo, m_opAddUserInfo->m_qsCardNum.toLocal8Bit().data());
+	/*\ 读取文件信息 \*/
+	//char chpBuf[200 * 1024] = { 0 };
+	char* chpBuf = new char[200 * 1024];
+	FILE* fileI = fopen(std::string(m_opAddUserInfo->m_qsPicPath.toLocal8Bit().data()).c_str(), "rb");
+	if (!fileI)
 	{
-		MessageBoxA(nullptr, "读取图片信息失败", "提示", MB_OK | MB_ICONWARNING);
 		return;
 	}
 	/*\ 给char*分配内存 \*/
-	oSendFaceInfo->pFaceBuffer = (char*)malloc(oPicFileInfo.length());
-	memset(oSendFaceInfo->pFaceBuffer, 0, oPicFileInfo.length());
-	strcpy(oSendFaceInfo->pFaceBuffer, oPicFileInfo.c_str());
-	oSendFaceInfo->dwFaceLen = oPicFileInfo.length();
-	qDebug("%s", oSendFaceInfo->pFaceBuffer);
+	int iLength = fread(chpBuf, 1, 200 * 1024, fileI);
+	fclose(fileI);
+	/*\ 赋值 \*/
+	oSendFaceInfo.pFaceBuffer = chpBuf;
+	oSendFaceInfo.dwFaceLen = iLength;
 	/*\ 发送数据 \*/
 	if (!NET_DVR_SendRemoteConfig(
 		m_opLongConnStatus->m_iLongConnHandle,
 		ENUM_ACS_INTELLIGENT_IDENTITY_DATA,
-		(char*)oSendFaceInfo,
-		sizeof(NET_DVR_FACE_PARAM_CFG)))
+		(char*)& oSendFaceInfo,
+		static_cast<DWORD>(sizeof(NET_DVR_FACE_PARAM_CFG))))
 	{
 		int iError = -1;
 		iError = NET_DVR_GetLastError();
 		MessageBoxA(nullptr, "下发人脸信息失败", "提示", MB_OK | MB_ICONWARNING);
-		return;
+		NET_DVR_StopRemoteConfig(m_opLongConnStatus->m_iLongConnHandle);
+	}
+	else
+	{
+		MessageBoxA(nullptr, "下发人脸信息成功", "提示", MB_OK);
+		NET_DVR_StopRemoteConfig(m_opLongConnStatus->m_iLongConnHandle);
 	}
 }
 
@@ -575,7 +583,7 @@ void fmAddUser::SendCardSuccInputFaceInfo()
 *@param[out]
 *@return     返回读取的信息
 ****************************************/
-std::string fmAddUser::ReadPicInfoToStream()
+char* fmAddUser::ReadPicInfoToStream()
 {
 	//QByteArray oByteArray;
 	//QString qsPicPath = QString::fromLocal8Bit(std::string(m_opAddUserInfo->m_qsPicPath.toLocal8Bit().data()).c_str());
@@ -587,6 +595,7 @@ std::string fmAddUser::ReadPicInfoToStream()
 	//	return "";
 	//}
 	//QImage img(qsPicPath);
+	//img.load(qsPicPath);
 	//QBuffer buffer(&oByteArray);
 	//buffer.open(QIODevice::WriteOnly);
 	//img.save(&buffer, "PNG");
@@ -598,6 +607,7 @@ std::string fmAddUser::ReadPicInfoToStream()
 	//}*/
 	//buffer.close();
 	//oFile.close();
+	//return buffer.data();
 	return CUtils::GetInstance()->ReadJpgInfoWithCSharp(
 		std::string(m_opAddUserInfo->m_qsPicPath.toLocal8Bit().data()).c_str()
 	);
