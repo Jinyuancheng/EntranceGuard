@@ -715,6 +715,7 @@ void EntranceGuard::ShowAllUserInfoWithListView()
 	QObject::connect(pReply, SIGNAL(finished()), &oLoop, SLOT(quit()));
 	oLoop.exec();
 	this->HttpGetAllUserSuccDataHandle(pReply);
+	/*\ 异步方式等待服务器回调 \*/
 	//QObject::connect(pReply, SIGNAL(finished()), this, SLOT(HttpGetAllUserSuccDataHandle()));
 }
 
@@ -728,41 +729,7 @@ void EntranceGuard::ShowAllUserInfoWithListView()
 ****************************************/
 void EntranceGuard::BeSentDownMenJin()
 {
-	int iIndex = ui.m_listDevInfo->currentIndex().row();
-	if (iIndex == -1)
-	{
-		MessageBoxA(nullptr, "请先选择一个门禁主机", "提示", MB_OK | MB_ICONWARNING);
-	}
-	else
-	{
-#pragma region [建立长连接]
-		m_opCardInfo->dwSize = sizeof(*m_opCardInfo);
-		m_opCardInfo->dwCardNum = 1;
-		m_opCardInfo->byCheckCardNo = 1;
-		m_opCardInfo->wLocalControllerID = 0;//0表示门禁
-		this->InitSaveLongInfo();
-		m_opLongConnInfo->m_iLoginHandle = m_vecLoginInfo[iIndex].m_iLoginHandle;
-		m_opLongConnInfo->m_iLongConnHandle = this->CreateLongConn(
-			m_opLongConnInfo->m_iLoginHandle,
-			NET_DVR_SET_CARD_CFG_V50,
-			m_opCardInfo,
-			sizeof(NET_DVR_CARD_CFG_COND)
-		);
-		if (m_opLongConnInfo->m_iLongConnHandle == -1)
-		{
-			return;
-		}
-		m_opLongConnInfo->m_bIsLongConn = true;
-		gl_dwOptType = NET_DVR_SET_CARD_CFG_V50;
-#pragma endregion
-
-#pragma region [发送数据]
-
-#pragma endregion
-
-
-	}
-
+	MessageBoxA(nullptr, "下发", "提示", MB_OK);
 }
 
 /****************************************!

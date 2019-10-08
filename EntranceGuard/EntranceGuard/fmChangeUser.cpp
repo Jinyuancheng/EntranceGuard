@@ -304,8 +304,7 @@ void fmChangeUser::ModifyUserInfoWithCardNum(QNetworkReply* _opReplay)
 				return;
 			}
 			/*\ 人脸下发 \*/
-
-
+			this->SendFaceInfoToMenJinHost(m_opModifyUserInfo->m_qsPicPath);
 		}
 		/*\ 从0开始 \*/
 		if (gl_opSelCardInfo.byCardType != m_opModifyUserInfo->m_iCardType)
@@ -509,4 +508,77 @@ void fmChangeUser::fmChangeUserInit()
 	m_oUi.m_linePath->setText(QString::fromLocal8Bit(""));
 	m_oUi.m_cbCardType->setCurrentIndex(0);
 	m_oUi.m_cbUserType->setCurrentIndex(0);
+}
+
+/****************************************!
+*@brief  下发人脸信息,到门禁主机
+*@author Jinzi
+*@date   2019/10/08 16:38:09
+*@param[in]
+   _qsPicPath	:	图片路径
+*@param[out]
+*@return
+****************************************/
+void fmChangeUser::SendFaceInfoToMenJinHost(QString& _qsPicPath)
+{
+	NET_DVR_FACE_PARAM_COND oStartFaceInfo = { 0 };
+	oStartFaceInfo.dwSize = sizeof(NET_DVR_FACE_PARAM_COND);
+	oStartFaceInfo.dwFaceNum = 1;
+	oStartFaceInfo.byFaceID = 1;
+	oStartFaceInfo.byEnableCardReader[0] = 1;
+	strcpy((char*)oStartFaceInfo.byCardNo, m_opModifyUserInfo->m_qsCardNum.toLocal8Bit().data());
+	/*\ 建立长连接 \*/
+	m_iLongConnHandle = NET_DVR_StartRemoteConfig(
+		m_iLoginHandle,
+		NET_DVR_SET_FACE_PARAM_CFG,
+		&oStartFaceInfo,
+		static_cast<DWORD>(sizeof(NET_DVR_FACE_PARAM_COND)),
+		nullptr,
+		nullptr
+	);
+	if (m_iLongConnHandle == -1)
+	{
+		int iError = NET_DVR_GetLastError();
+		MessageBoxA(nullptr, "添加人脸信息失败", "提示", MB_OK | MB_ICONWARNING);
+		return;
+	}
+	/*\ 发送数据 \*/
+	NET_DVR_FACE_PARAM_CFG oSendFaceInfo = { 0 };
+	oSendFaceInfo.dwSize = sizeof(NET_DVR_FACE_PARAM_CFG);
+	oSendFaceInfo.byFaceDataType = 1;
+	oSendFaceInfo.byFaceID = 1;
+	oSendFaceInfo.byEnableCardReader[0] = 1;
+	/*\ 卡号 \*/
+	strcpy((char*)oSendFaceInfo.byCardNo, m_opModifyUserInfo->m_qsCardNum.toLocal8Bit().data());
+	/*\ 读取文件信息 \*/
+	//char chpBuf[200 * 1024] = { 0 };
+	char* chpBuf = new char[200 * 1024];
+	FILE* fileI = fopen(std::string(m_opModifyUserInfo->m_qsPicPath.toLocal8Bit().data()).c_str(), "rb");
+	if (!fileI)
+	{
+		return;
+	}
+	/*\ 给char*分配内存 \*/
+	int iLength = fread(chpBuf, 1, 200 * 1024, fileI);
+	fclose(fileI);
+	/*\ 赋值 \*/
+	oSendFaceInfo.pFaceBuffer = chpBuf;
+	oSendFaceInfo.dwFaceLen = iLength;
+	/*\ 发送数据 \*/
+	if (!NET_DVR_SendRemoteConfig(
+		m_iLongConnHandle,
+		ENUM_ACS_INTELLIGENT_IDENTITY_DATA,
+		(char*)& oSendFaceInfo,
+		static_cast<DWORD>(sizeof(NET_DVR_FACE_PARAM_CFG))))
+	{
+		int iError = -1;
+		iError = NET_DVR_GetLastError();
+		MessageBoxA(nullptr, "下发人脸信息失败", "提示", MB_OK | MB_ICONWARNING);
+		NET_DVR_StopRemoteConfig(m_iLongConnHandle);
+	}
+	else
+	{
+		MessageBoxA(nullptr, "下发人脸信息成功", "提示", MB_OK);
+		NET_DVR_StopRemoteConfig(m_iLongConnHandle);
+	}
 }

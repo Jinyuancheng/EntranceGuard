@@ -50,6 +50,8 @@ public:
 	bool JuageCardNumExistWithMenJin(const char* _cchpCardNum);
 	/*\ 向服务器发送修改用户信息的请求 \*/
 	void SendModifyUserToHttpSvr(QString& _sUserId, QString& _sPicPath, QString& _qsImgName);
+	/*\ 人脸下发 \*/
+	void SendFaceInfoToMenJinHost(QString& _qsPicPath);
 public:
 	/*\ 设置存储门禁信息结构体数据 \*/
 	void SetSelMenJinInfo(CSelMenJinInfo& _oSelMenJinInfo);
@@ -69,12 +71,12 @@ public:
 	FuncRetUserSelMenJinLoginHandle		m_funcRetUserSelMenJinLoginHandle;
 private:
 	Ui::CFmChangeUser		m_oUi;				/*\ 用来操作ui界面 \*/
-	CSelMenJinInfo* m_opSelMenJinInfo;	/*\ 存储门禁信息结构体 \*/
-	CHttpRequest* m_opHttpRequest;	/*\ http请求对象 \*/
+	CSelMenJinInfo*         m_opSelMenJinInfo;	/*\ 存储门禁信息结构体 \*/
+	CHttpRequest*           m_opHttpRequest;	/*\ http请求对象 \*/
 	int						m_iLongConnHandle;	/*\ 长连接连接句柄 \*/
-	CModifyUserInfo* m_opModifyUserInfo;	/*\ 存储修改用户信息的结构体 \*/
+	CModifyUserInfo*        m_opModifyUserInfo;	/*\ 存储修改用户信息的结构体 \*/
 	int						m_iLoginHandle;		/*\ 门禁主机登录句柄(用户选中) \*/
-	QString					m_qsJobNum;		/*\ 用户选中数据的工号 \*/
+	QString					m_qsJobNum;			/*\ 用户选中数据的工号 \*/
 };
 
 #endif
