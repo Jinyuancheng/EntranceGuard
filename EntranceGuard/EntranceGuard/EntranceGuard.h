@@ -66,8 +66,8 @@ public:
 	int GetListViewCheck();
 	/*\ 显示门禁用户信息 \*/
 	void ShowMenJinUserInfo();
-	/*\ 根据工号 寻找到用户的id \*/
-	QString RetUserIdWithJobNum(QString _qsJobNumber);
+	/*\ 根据卡号 寻找到用户的id \*/
+	QString RetUserIdWithJobNum(QString _qsCardNumber);
 	/*\ 删除一个用户的信息 \*/
 	void DelMenJinUserInfo();
 	/*\ 执行请求获取所有用户信息的数据处理函数 \*/

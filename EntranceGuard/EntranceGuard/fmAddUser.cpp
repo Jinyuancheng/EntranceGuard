@@ -404,11 +404,15 @@ void fmAddUser::SendCardInfoToMenJin()
 		return;
 	}
 	opSendCardInfo->dwSize = sizeof(NET_DVR_CARD_CFG_V50);
-	opSendCardInfo->dwModifyParamType = 0x00040C8d; //0x000c80;//工号 姓名 密码
+	opSendCardInfo->dwModifyParamType = 0x00040d8d; //0x000c80;//工号 姓名 密码
 	/*\ 门权限模板 开启魔板 \*/
 	opSendCardInfo->dwPlanTemplate = 1;//1.全天开启
 	/*\ 门权限 \*/
 	opSendCardInfo->byDoorRight[0] = 1;
+	/*\ 卡模板参数 \*/
+	opSendCardInfo->wCardRightPlan[0][0] = 1;
+	opSendCardInfo->wCardRightPlan[0][1] = 2;
+	/*\ 卡号 \*/
 	strcpy((char*)(opSendCardInfo->byCardNo), m_opAddUserInfo->m_qsCardNum.toLocal8Bit().data());
 	/*\ 卡密码 \*/
 	strcpy((char*)opSendCardInfo->byCardPassword, m_opAddUserInfo->m_qsCardPass.toLocal8Bit().data());

@@ -802,11 +802,12 @@ void EntranceGuard::DelUserInfoWithMenJin()
 	this->ShowAllUserInfoWithListView();
 
 	QAbstractItemModel* oAbModel = ui.m_tbUserInfo->model();
-	QModelIndex ModelIndex = oAbModel->index(iIndex, 4);
-	/*\ 工号 \*/
-	QString qsJobNumber = oAbModel->data(ModelIndex).toString();
+	QModelIndex ModelIndex = oAbModel->index(iIndex, 0);
+	/*\ 卡号 \*/
+	QString qsCardNumber = oAbModel->data(ModelIndex).toString();
+
 	/*\ 得到工号对应的用户id \*/
-	QString qsUserId = RetUserIdWithJobNum(qsJobNumber);
+	QString qsUserId = RetUserIdWithJobNum(qsCardNumber);
 	/*\ 判断是否寻找到了该id \*/
 	if (qsUserId == "")
 	{
@@ -839,13 +840,13 @@ void EntranceGuard::DelUserInfoWithMenJin()
 *@author Jinzi
 *@date   2019/09/20 16:49:02
 *@param[in]
-   _qsCardNumber	:	工号
+   _qsCardNumber	:	卡号
 *@param[out]
 *@return
 ****************************************/
-QString EntranceGuard::RetUserIdWithJobNum(QString _qsJobNumber)
+QString EntranceGuard::RetUserIdWithJobNum(QString _qsCardNumber)
 {
-	if (_qsJobNumber.count() == 0)
+	if (_qsCardNumber.count() == 0)
 	{
 		return "";
 	}
@@ -855,7 +856,7 @@ QString EntranceGuard::RetUserIdWithJobNum(QString _qsJobNumber)
 	}
 	for (int i = 0; i < m_vecSvrRetAllUserInfo.size(); i++)
 	{
-		if (_qsJobNumber == m_vecSvrRetAllUserInfo[i].m_qsJobNumber)
+		if (_qsCardNumber == m_vecSvrRetAllUserInfo[i].m_qsCardNumber)
 		{
 			return m_vecSvrRetAllUserInfo[i].m_qsId;
 		}
