@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
 	read_ini("../bin/Config/config.ini", oParentPtree);
 	gl_opSaveIniInfo->sIp = oParentPtree.get<std::string>("IP.sIp");
 	gl_opSaveIniInfo->sPort = oParentPtree.get<std::string>("PORT.sPort");
+	gl_opSaveIniInfo->sfPort = oParentPtree.get<std::string>("PORT.fPort");
 	gl_opSaveIniInfo->sReadPicDllPath = oParentPtree.get<std::string>("PATH.sReadPicDllPath");
 	EntranceGuard w;
 	w.show();

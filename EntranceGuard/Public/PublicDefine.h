@@ -27,7 +27,8 @@ typedef struct
 /*\ 用来存储配置文件中的信息 \*/
 typedef struct
 {
-	std::string sPort;		     /*\ 端口 \*/
+	std::string sPort;		     /*\ 后端端口 \*/
+	std::string sfPort;			 /*\ 前端端口 \*/
 	std::string	sIp;		     /*\ ip \*/
 	std::string sReadPicDllPath; /*\ ReadPic.dll路径 \*/
 }CSaveiniInfo, * PCSaveiniInfo;

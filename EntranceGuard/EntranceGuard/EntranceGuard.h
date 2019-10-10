@@ -74,9 +74,11 @@ public:
 	void HttpGetAllUserSuccDataHandle(QNetworkReply* _opReply);
 public: //fmChangeUser 窗体调用的函数
 	/*\ 返回用户选中的工号信息（tableView控件操作） \*/
-	QString RetUserSelRowCardNum();
+	QString RetUserSelRowJobNum();
 	/*\ 返回用户选择门禁主机的登录句柄 \*/
 	int RetUserSelMenJinLoginHandle();
+	/*\ 返回用户选中的卡号信息 \*/
+	QString RetUserSelRowCardNum();
 public:
 	/*\ 建立长连接 \*/
 	int CreateLongConn(int _iLoginHandle, DWORD _uiType, LPVOID _lpBuffer,

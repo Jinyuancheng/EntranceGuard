@@ -131,19 +131,24 @@ void fmChangeUser::InitMemberVar()
 void fmChangeUser::BtnChangeClickEvent()
 {
 	/*\ 根据工号 判断用户是否在服务器中存在,存在返回id \*/
-	std::string sUrl = "http://" + gl_opSaveIniInfo->sIp + ":" + gl_opSaveIniInfo->sPort + "/patroluser/getPatrolUserByJobNum";
+	std::string sUrl = "http://" + gl_opSaveIniInfo->sIp + ":" + gl_opSaveIniInfo->sPort + "/patroluser/getPatrolUserByCardNum";
 	if (m_funcRetUserSelMenJinLoginHandle != nullptr)
 	{
 		m_iLoginHandle = m_funcRetUserSelMenJinLoginHandle();
 	}
 	/*\ 获取用户选中的工号 \*/
+	if (m_funcRetUserSelJobNum != nullptr)
+	{
+		m_qsJobNum = m_funcRetUserSelJobNum();
+	}
+	/*\ 获取用户选中的卡号 \*/
 	if (m_funcRetUserSelCardNum != nullptr)
 	{
-		m_qsJobNum = m_funcRetUserSelCardNum();
+		m_qsCardNum = m_funcRetUserSelCardNum();
 	}
 	/*\ 发送http请求 \*/
 	QJsonObject jsonObject;
-	jsonObject.insert("jobNumber", m_qsJobNum);
+	jsonObject.insert("cardNumber", m_qsCardNum);
 	QJsonDocument jsonDocument(jsonObject);
 	QByteArray oReqData(jsonDocument.toJson());
 	/*\ 发送http请求 \*/
@@ -242,6 +247,12 @@ void fmChangeUser::ModifyUserInfoWithCardNum(QNetworkReply* _opReplay)
 			MessageBoxA(nullptr, "卡号不存在", "提示", MB_OK | MB_ICONWARNING);
 			return;
 		}*/
+		/*\ 判断用户输入的用户名为必传字段 \*/
+		if (m_oUi.m_editUserName->text() == "")
+		{
+			MessageBoxA(nullptr, "请输入姓名", "提示", MB_OK | MB_ICONWARNING);
+			return;
+		}
 		/*\ 获取用户输入数据，判断用户都修改什么数据 \*/
 		//m_opModifyUserInfo->m_qsCardNum = m_oUi.m_editCardNum->text();
 		m_opModifyUserInfo->m_qsCardPass = m_oUi.m_editCardPass->text();
@@ -295,17 +306,6 @@ void fmChangeUser::ModifyUserInfoWithCardNum(QNetworkReply* _opReplay)
 			dwType |= 1 << 10;
 			opModifyInfo->dwEmployeeNo = m_opModifyUserInfo->m_qsUserNum.toUInt();
 		}
-		if (m_opModifyUserInfo->m_qsPicPath != "")
-		{
-			/*\ 判断图片文件路径是否合法 \*/
-			if (CUtils::GetInstance()->JuageNumberLegal(m_opModifyUserInfo->m_qsPicPath))
-			{
-				MessageBoxA(nullptr, "请输入合法的图片路径", "提示", MB_OK | MB_ICONWARNING);
-				return;
-			}
-			/*\ 人脸下发 \*/
-			this->SendFaceInfoToMenJinHost(m_opModifyUserInfo->m_qsPicPath);
-		}
 		/*\ 从0开始 \*/
 		if (gl_opSelCardInfo.byCardType != m_opModifyUserInfo->m_iCardType)
 		{
@@ -320,7 +320,7 @@ void fmChangeUser::ModifyUserInfoWithCardNum(QNetworkReply* _opReplay)
 		/*\ 给修改了哪个字段的字段赋值 \*/
 		opModifyInfo->dwModifyParamType = dwType;
 		opModifyInfo->dwSize = sizeof(NET_DVR_CARD_CFG_V50);
-		strcpy((char*)opModifyInfo->byCardNo, jsonValue["cardNumber"].toString().toLocal8Bit().data());
+		strcpy((char*)opModifyInfo->byCardNo, m_qsCardNum.toLocal8Bit().data());
 		//strcpy((char*)opModifyInfo->byCardNo, m_opModifyUserInfo->m_qsCardNum.toLocal8Bit().data());
 		if (!NET_DVR_SendRemoteConfig(
 			m_iLongConnHandle,
@@ -329,16 +329,29 @@ void fmChangeUser::ModifyUserInfoWithCardNum(QNetworkReply* _opReplay)
 			sizeof(NET_DVR_CARD_CFG_V50)
 		))
 		{
+			int iError = NET_DVR_GetLastError();
 			MessageBoxA(nullptr, "修改用户信息失败", "提示", MB_OK | MB_ICONWARNING);
 			goto Free;
 			return;
 		}
 		else
 		{
+			/*\ 人脸下发,不能再修改之前下发人脸信息 \*/
+			if (m_opModifyUserInfo->m_qsPicPath != "")
+			{
+				/*\ 判断图片文件路径是否合法 \*/
+				if (CUtils::GetInstance()->JuageNumberLegal(m_opModifyUserInfo->m_qsPicPath))
+				{
+					MessageBoxA(nullptr, "请输入合法的图片路径", "提示", MB_OK | MB_ICONWARNING);
+					return;
+				}
+				/*\ 人脸下发 \*/
+				this->SendFaceInfoToMenJinHost(m_opModifyUserInfo->m_qsPicPath);
+			}
 			char chId[32] = { 0 };
 			/*\ 图片的url地址 \*/
 			std::string sUrl = "http://" + gl_opSaveIniInfo->sIp + ":" +
-				gl_opSaveIniInfo->sPort + "/headinfo" + jsonValue["imgName"].toString().toLocal8Bit().data();
+				gl_opSaveIniInfo->sfPort + "/headinfo/" + jsonValue["imgName"].toString().toLocal8Bit().data();
 			int sUserId = jsonValue["id"].toInt();
 			QString qsImgName = jsonValue["imgName"].toString();
 			/*\ 像服务器发送修改数据 \*/

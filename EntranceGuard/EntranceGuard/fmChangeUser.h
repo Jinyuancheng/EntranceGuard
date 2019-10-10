@@ -24,9 +24,11 @@
 #include "./CHttpRequest.h"
 
 /*\ 用来调用主窗口中的函数,用来返回用户选中行(tableView控件) \*/
-typedef std::function<QString(void)>	FuncRetUserSelCardNum;
+typedef std::function<QString(void)>	FuncRetUserSelJobNum;
 /*\ 获取用户选择的门禁主机的登录句柄 \*/
 typedef std::function<int(void)>		FuncRetUserSelMenJinLoginHandle;
+/*\ 获取用户选择的门禁主机的卡号 \*/
+typedef std::function<QString(void)>	FuncRetUserSelCardNum;
 
 /*\ 长连接回调函数 \*/
 void HikLongConnCallBackFunc(DWORD dwType, void* lpBuffer, DWORD dwBufLen, void* pUserData);
@@ -65,10 +67,12 @@ public slots:
 	/*\ 请求修改用户信息的回调数据处理 \*/
 	void SvrRetModifyUserHandle(QNetworkReply* _opReplay);
 public:
-	/*\ 用来调用主窗口中的函数，用来获取选中行 \*/
-	FuncRetUserSelCardNum				m_funcRetUserSelCardNum;
+	/*\ 用来调用主窗口中的函数，用来获取选中行的工号 \*/
+	FuncRetUserSelJobNum				m_funcRetUserSelJobNum;
 	/*\ 用来调用主窗口中的函数,用啦获取用户选中门禁主机的登录句柄 \*/
 	FuncRetUserSelMenJinLoginHandle		m_funcRetUserSelMenJinLoginHandle;
+	/*\ 用来调用主窗口中的函数，用来获取选中行的卡号 \*/
+	FuncRetUserSelCardNum				m_funcRetUserSelCardNum;
 private:
 	Ui::CFmChangeUser		m_oUi;				/*\ 用来操作ui界面 \*/
 	CSelMenJinInfo*         m_opSelMenJinInfo;	/*\ 存储门禁信息结构体 \*/
@@ -77,6 +81,7 @@ private:
 	CModifyUserInfo*        m_opModifyUserInfo;	/*\ 存储修改用户信息的结构体 \*/
 	int						m_iLoginHandle;		/*\ 门禁主机登录句柄(用户选中) \*/
 	QString					m_qsJobNum;			/*\ 用户选中数据的工号 \*/
+	QString					m_qsCardNum;		/*\ 用户选中的卡号 \*/
 };
 
 #endif

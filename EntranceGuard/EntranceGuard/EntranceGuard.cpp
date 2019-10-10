@@ -97,6 +97,8 @@ void EntranceGuard::InitChildWinFuncAssign()
 	///////////////////// 2019/09/24 11:36:56 修改用户窗口 ==> BEGIN /////////////////////////////////////////////////////
 	m_opFmChangeUser->m_funcRetUserSelMenJinLoginHandle =
 		std::bind(&EntranceGuard::RetUserSelMenJinLoginHandle, this);
+	m_opFmChangeUser->m_funcRetUserSelJobNum =
+		std::bind(&EntranceGuard::RetUserSelRowJobNum, this);
 	m_opFmChangeUser->m_funcRetUserSelCardNum =
 		std::bind(&EntranceGuard::RetUserSelRowCardNum, this);
 	///////////////////// 2019/09/24 11:36:56 修改用户窗口 ==> END /////////////////////////////////////////////////////
@@ -879,7 +881,7 @@ void EntranceGuard::HttpDelUserInfoSuccDataHandle()
 	/*\ 说明在服务器上 删除成功 \*/
 	if (jsonResData.value("code") == 0)
 	{
-		/*\ 删除一个门禁用户信息 \*/
+		/*\ 删除一个门禁用户信息（在门禁主机上） \*/
 		this->DelMenJinUserInfo();
 	}
 	else
@@ -953,9 +955,9 @@ void EntranceGuard::DelMenJinUserInfo()
 	}
 	else
 	{
+		int iError = NET_DVR_GetLastError();
 		MessageBoxA(nullptr, "删除用户成功", "提示", MB_OK | MB_ICONWARNING);
 		NET_DVR_StopRemoteConfig(m_opLongConnInfo->m_iLongConnHandle);
-		int iError = NET_DVR_GetLastError();
 		goto Free;
 		return;
 	}
@@ -998,12 +1000,12 @@ void EntranceGuard::ShowFmChangeUserInfo()
 		return;
 	}
 	QAbstractItemModel* oAbModel = ui.m_tbUserInfo->model();
-	QModelIndex ModelJobNum = oAbModel->index(iTbIndex, 4);
+	QModelIndex ModelCardNum = oAbModel->index(iTbIndex, 0);
 	/*\ 工号 \*/
-	QString qsJobNumber = oAbModel->data(ModelJobNum).toString();
-	std::string sUrl = "http://" + gl_opSaveIniInfo->sIp + ":" + gl_opSaveIniInfo->sPort + "/patroluser/getPatrolUserByJobNum";
+	QString qsCardNumber = oAbModel->data(ModelCardNum).toString();
+	std::string sUrl = "http://" + gl_opSaveIniInfo->sIp + ":" + gl_opSaveIniInfo->sPort + "/patroluser/getPatrolUserByCardNum";
 	QJsonObject jsonReqData;
-	jsonReqData.insert("jobNumber", qsJobNumber);
+	jsonReqData.insert("cardNumber", qsCardNumber);
 	QJsonDocument jsonDocument(jsonReqData);
 	//jsonDocument.setObject(jsonReqData);
 	QByteArray reqData(jsonDocument.toJson());
@@ -1073,7 +1075,7 @@ void EntranceGuard::JuageJobNumResFuncHandle(QNetworkReply* _opReqplay)
 *@param[out]
 *@return     返回用户选中行 失败返回-1
 ****************************************/
-QString EntranceGuard::RetUserSelRowCardNum()
+QString EntranceGuard::RetUserSelRowJobNum()
 {
 	int iIndex = -1;
 	iIndex = ui.m_tbUserInfo->currentIndex().row();
@@ -1101,4 +1103,23 @@ int EntranceGuard::RetUserSelMenJinLoginHandle()
 		iIndex = m_vecLoginInfo[iSelIndex].m_iLoginHandle;
 	}
 	return iIndex;
+}
+
+ /****************************************!
+ *@brief  返回用户选中卡号
+ *@author Jinzi
+ *@date   2019/10/10 11:34:10
+ *@param[in]  
+ *@param[out] 
+ *@return     
+ ****************************************/
+QString EntranceGuard::RetUserSelRowCardNum()
+{
+	int iIndex = -1;
+	iIndex = ui.m_tbUserInfo->currentIndex().row();
+	QAbstractItemModel* oAbModel = ui.m_tbUserInfo->model();
+	QModelIndex ModelCardNum = oAbModel->index(iIndex, 0);
+	/*\ 工号 \*/
+	QString qsCardNumber = oAbModel->data(ModelCardNum).toString();
+	return qsCardNumber;
 }
