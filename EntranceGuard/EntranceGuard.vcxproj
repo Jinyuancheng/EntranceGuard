@@ -13,12 +13,12 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
     <Keyword>Qt4VSv1.0</Keyword>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CLRSupport>false</CLRSupport>
     <UseOfMfc>false</UseOfMfc>
@@ -34,7 +34,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\bin\</OutDir>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <LibraryPath>G:\boost_1_67_0\lib32-msvc-14.1;G:\boost_1_67_0;$(LibraryPath)</LibraryPath>
+    <IncludePath>G:\boost_1_67_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\bin\</OutDir>
@@ -61,7 +62,7 @@
       <AdditionalIncludeDirectories>E:\QT_5.12.3\5.12.3\msvc2017\include\QtNetwork;E:\QT_5.12.3\5.12.3\msvc2017\include;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtWidgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <CallingConvention>Cdecl</CallingConvention>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -78,8 +79,7 @@
       <AssemblyLinkResource>
       </AssemblyLinkResource>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <IgnoreSpecificDefaultLibraries>
-      </IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>/NODEFAULTLIB</IgnoreSpecificDefaultLibraries>
       <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <QtMoc>
@@ -104,7 +104,7 @@
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_OPENGL_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtWidgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>G:\boost_1_67_0;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtWidgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -112,14 +112,14 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>G:\Jinzi_WorkSpace\QT\EntranceGuard\bin\HCNetSDKCom;G:\Jinzi_WorkSpace\QT\EntranceGuard\bin\ClientDemoDll;G:\Jinzi_WorkSpace\QT\EntranceGuard\bin;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>G:\boost_1_67_0\lib32-msvc-14.1;G:\Jinzi_WorkSpace\QT\EntranceGuard\bin\HCNetSDKCom;G:\Jinzi_WorkSpace\QT\EntranceGuard\bin\ClientDemoDll;G:\Jinzi_WorkSpace\QT\EntranceGuard\bin;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Networkd.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5WebSocketsd.lib;Qt5Widgetsd.lib;GdiPlus.lib;HCCore.lib;HCNetSDK.lib;PlayCtrl.lib;HCAlarm.lib;HCGeneralCfgMgr.lib;HCPreview.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Network.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5WebSocketsd.lib;Qt5Widgetsd.lib;GdiPlus.lib;HCCore.lib;HCNetSDK.lib;PlayCtrl.lib;HCAlarm.lib;HCGeneralCfgMgr.lib;HCPreview.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
-      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtWidgets;%(AdditionalIncludeDirectories)</IncludePath>
+      <IncludePath>G:\boost_1_67_0;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtWidgets;%(AdditionalIncludeDirectories)</IncludePath>
       <Define>UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_OPENGL_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</Define>
       <QTDIR>$(QTDIR)</QTDIR>
     </QtMoc>
@@ -166,6 +166,40 @@
       <Define Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_OPENGL_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)_CRT_SECURE_NO_WARNINGS</Define>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtWidgets</IncludePath>
     </QtMoc>
+    <ClInclude Include="boost\property_tree\detail\exception_implementation.hpp" />
+    <ClInclude Include="boost\property_tree\detail\file_parser_error.hpp" />
+    <ClInclude Include="boost\property_tree\detail\info_parser_error.hpp" />
+    <ClInclude Include="boost\property_tree\detail\info_parser_read.hpp" />
+    <ClInclude Include="boost\property_tree\detail\info_parser_utils.hpp" />
+    <ClInclude Include="boost\property_tree\detail\info_parser_write.hpp" />
+    <ClInclude Include="boost\property_tree\detail\info_parser_writer_settings.hpp" />
+    <ClInclude Include="boost\property_tree\detail\ptree_implementation.hpp" />
+    <ClInclude Include="boost\property_tree\detail\ptree_utils.hpp" />
+    <ClInclude Include="boost\property_tree\detail\rapidxml.hpp" />
+    <ClInclude Include="boost\property_tree\detail\xml_parser_error.hpp" />
+    <ClInclude Include="boost\property_tree\detail\xml_parser_flags.hpp" />
+    <ClInclude Include="boost\property_tree\detail\xml_parser_read_rapidxml.hpp" />
+    <ClInclude Include="boost\property_tree\detail\xml_parser_utils.hpp" />
+    <ClInclude Include="boost\property_tree\detail\xml_parser_write.hpp" />
+    <ClInclude Include="boost\property_tree\detail\xml_parser_writer_settings.hpp" />
+    <ClInclude Include="boost\property_tree\exceptions.hpp" />
+    <ClInclude Include="boost\property_tree\id_translator.hpp" />
+    <ClInclude Include="boost\property_tree\info_parser.hpp" />
+    <ClInclude Include="boost\property_tree\ini_parser.hpp" />
+    <ClInclude Include="boost\property_tree\json_parser.hpp" />
+    <ClInclude Include="boost\property_tree\json_parser\detail\narrow_encoding.hpp" />
+    <ClInclude Include="boost\property_tree\json_parser\detail\parser.hpp" />
+    <ClInclude Include="boost\property_tree\json_parser\detail\read.hpp" />
+    <ClInclude Include="boost\property_tree\json_parser\detail\standard_callbacks.hpp" />
+    <ClInclude Include="boost\property_tree\json_parser\detail\wide_encoding.hpp" />
+    <ClInclude Include="boost\property_tree\json_parser\detail\write.hpp" />
+    <ClInclude Include="boost\property_tree\json_parser\error.hpp" />
+    <ClInclude Include="boost\property_tree\ptree.hpp" />
+    <ClInclude Include="boost\property_tree\ptree_fwd.hpp" />
+    <ClInclude Include="boost\property_tree\ptree_serialization.hpp" />
+    <ClInclude Include="boost\property_tree\stream_translator.hpp" />
+    <ClInclude Include="boost\property_tree\string_path.hpp" />
+    <ClInclude Include="boost\property_tree\xml_parser.hpp" />
     <ClInclude Include="EntranceGuard\CHttpRequest.h" />
     <ClInclude Include="Public\PublicDefine.h" />
     <ClInclude Include="Utils\json.h" />

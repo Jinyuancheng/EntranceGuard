@@ -7,7 +7,8 @@
 message("You are running qmake on a generated .pro file. This may not work!")
 
 
-HEADERS += ./Public/PublicDefine.h \
+HEADERS += ./EntranceGuard/CHttpRequest.h \
+    ./Public/PublicDefine.h \
     ./Utils/json.h \
     ./Utils/template.h \
     ./Utils/utils.h \
@@ -17,13 +18,18 @@ HEADERS += ./Public/PublicDefine.h \
     ./HIKSDK/plaympeg4.h \
     ./EntranceGuard/EntranceGuard.h \
     ./EntranceGuard/fmAddUser.h \
+    ./EntranceGuard/fmChangeUser.h \
     ./EntranceGuard/fmMenJinLogin.h
-SOURCES += ./EntranceGuard/EntranceGuard.cpp \
+SOURCES += ./EntranceGuard/CHttpRequest.cpp \
+    ./EntranceGuard/EntranceGuard.cpp \
     ./EntranceGuard/fmMenJinLogin.cpp \
     ./EntranceGuard/fmAddUser.cpp \
+    ./EntranceGuard/fmChangeUser.cpp \
     ./main.cpp \
-    ./Public/PublicDefine.cpp
+    ./Public/PublicDefine.cpp \
+    ./Utils/utils.cpp
 FORMS += ./ui/EntranceGuard.ui \
     ./ui/fmAddUser.ui \
+    ./ui/fmChangeUser.ui \
     ./ui/fmMenJinLogin.ui
-RESOURCES += EntranceGuard.qrc
+RESOURCES += ui/EntranceGuard.qrc

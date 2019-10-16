@@ -9,10 +9,9 @@
 #ifndef _JSON_H_
 #define _JSON_H_
 
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/property_tree/ini_parser.hpp>
-#include <boost/property_tree/xml_parser.hpp>
-#include <boost/foreach.hpp>
+#include "../boost/property_tree/ptree.hpp"
+#include "../boost/property_tree/json_parser.hpp"
+#include "../boost/property_tree/ini_parser.hpp"
+#include "../boost/property_tree/xml_parser.hpp"
 #endif // !1
 
