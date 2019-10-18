@@ -8,6 +8,11 @@ DESTDIR = ../bin
 QT += core opengl network gui widgets websockets
 CONFIG += debug
 DEFINES += _UNICODE _ENABLE_EXTENDED_ALIGNED_STORAGE WIN64 QT_DLL QT_NETWORK_LIB QT_OPENGL_LIB QT_WEBSOCKETS_LIB QT_WIDGETS_LIB %(PreprocessorDefinitions)_CRT_SECURE_NO_WARNINGS $(NOINHERIT)
+FORMS +=	.\ui\EntranceGuard.ui \
+			.\ui\fmAddUser.ui \
+			.\ui\fmChangeUser.ui \
+			.\ui\fmMenJinLogin.ui
+
 INCLUDEPATH += ./GeneratedFiles \
     . \
     ./GeneratedFiles/$(ConfigurationName)

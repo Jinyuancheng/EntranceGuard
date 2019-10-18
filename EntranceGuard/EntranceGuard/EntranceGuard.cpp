@@ -138,8 +138,6 @@ void EntranceGuard::InitSignalAndSlot()
 	connect(ui.m_btnDelUser, SIGNAL(clicked()), this, SLOT(DelUserInfoWithMenJin()));
 	/*\ 修改人员信息按钮 \*/
 	connect(ui.m_btnModifUser, SIGNAL(clicked()), this, SLOT(ShowFmChangeUserInfo()));
-	/*\ 页面关闭退出登录 \*/
-	connect(this, SIGNAL(close()), this, SLOT(HikMenJinLoginOutAll()));
 }
 
 /****************************************!

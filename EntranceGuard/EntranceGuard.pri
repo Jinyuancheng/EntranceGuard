@@ -19,7 +19,11 @@ HEADERS += ./EntranceGuard/CHttpRequest.h \
     ./EntranceGuard/EntranceGuard.h \
     ./EntranceGuard/fmAddUser.h \
     ./EntranceGuard/fmChangeUser.h \
-    ./EntranceGuard/fmMenJinLogin.h
+    ./EntranceGuard/fmMenJinLogin.h \
+    ./GeneratedFiles/ui_EntranceGuard.h \
+    ./GeneratedFiles/ui_fmAddUser.h \
+    ./GeneratedFiles/ui_fmChangeUser.h \
+    ./GeneratedFiles/ui_fmMenJinLogin.h
 SOURCES += ./EntranceGuard/CHttpRequest.cpp \
     ./EntranceGuard/EntranceGuard.cpp \
     ./EntranceGuard/fmMenJinLogin.cpp \
@@ -27,7 +31,8 @@ SOURCES += ./EntranceGuard/CHttpRequest.cpp \
     ./EntranceGuard/fmChangeUser.cpp \
     ./main.cpp \
     ./Public/PublicDefine.cpp \
-    ./Utils/utils.cpp
+    ./Utils/utils.cpp \
+    ./GeneratedFiles/qrc_EntranceGuard.cpp
 FORMS += ./ui/EntranceGuard.ui \
     ./ui/fmAddUser.ui \
     ./ui/fmChangeUser.ui \
